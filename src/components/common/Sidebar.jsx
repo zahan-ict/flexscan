@@ -11,7 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme, ThemeProvider } from '@mui/material/styles';
 
 // Drawer
 import MuiDrawer from '@mui/material/Drawer';
@@ -23,20 +23,26 @@ import Groups from '@mui/icons-material/JoinFullOutlined';
 import Users from '@mui/icons-material/SupervisorAccountOutlined';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import MarginIcon from '@mui/icons-material/Margin';
 import TuneIcon from '@mui/icons-material/Tune';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 //header appbar
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar'
+
+import Button from '@mui/material/Button';
 
 
 const drawerWidth = 170;
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
+
 })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -106,15 +112,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const Sidebar = ({ children }) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
 
-    // const handleDrawerOpen = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleDrawerClose = () => {
-    //     setOpen(false);
-    // };
-
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
     const menuItem = [
         {
@@ -131,6 +135,11 @@ const Sidebar = ({ children }) => {
             path: "/racks",
             name: "Racks",
             icon: <MarginIcon />
+        },
+        {
+            path: "/areas",
+            name: "Areas",
+            icon: <CorporateFareIcon />
         },
         {
             path: "/operations",
@@ -152,40 +161,61 @@ const Sidebar = ({ children }) => {
             path: "/users",
             name: "Users",
             icon: <Users />
+        },
+        {
+            path: "/roles",
+            name: "Roles",
+            icon: <FingerprintIcon />
         }
 
     ]
 
+    const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+        alignItems: 'flex-start',
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(2),
+        // Override media queries injected by theme.mixins.toolbar
+        '@media all': {
+            minHeight: 128,
+        },
+    }));
+
     return (
-        <Box sx={{ display: 'flex' }}>
-
-            {/* <AppBar position="fixed" open={open}>
+    
+        <Box sx={{ display: 'flex', backgroundColor: '#f1f1f1',height: '100vh', overflow: 'auto' , m: -1 }}>
+            
+            <AppBar position="fixed" elevation={1} sx={{ zIndex: 100, backgroundColor:'#fff', color:'black' }} open={open}>
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ marginRight: 5, ...(open && { display: 'none' }), }}>
-                        <MenuIcon />
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{ mr: 2}}
+                    >
                     </IconButton>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
-                    <Typography variant="h6" noWrap component="div">
-                        flexcan
                     </Typography>
+                    <Button color="inherit"><PersonIcon /></Button>
+                    <Button color="inherit"><LogoutIcon /></Button>
                 </Toolbar>
-            </AppBar> */}
+            </AppBar>
 
-            <Drawer variant="permanent" open={open}>
+            {/* Open and close sidebar without <Appbar/> in the top. No need fuction  handleDrawerClose and handleDrawerOpen to close or open sidebar */}
+
+            <Drawer  variant="permanent" open={open}>
                 <DrawerHeader>
-
                     <IconButton onClick={() => setOpen(!open)}>
                         {open ? <ChevronLeftIcon /> : <MenuIcon />}
                     </IconButton>
-
                 </DrawerHeader>
-
 
                 <List>
                     {
                         menuItem.map((item, index) => (
 
-                            <Link to={item.path} key={index} >
+                            <Link style={{ textDecoration: 'none', color:'#000' }} to={item.path} key={index} >
 
                                 <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
 
@@ -204,10 +234,12 @@ const Sidebar = ({ children }) => {
                 </List>
             </Drawer>
 
+            {/* <Box component="main" sx={{ backgroundColor: (theme) => theme.palette.mode === 'light' ? theme.palette.grey[100]: theme.palette.grey[900],
+            flexGrow: 100, height: '100vh', overflow: 'auto' }}> </Box> */}
+            
             <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 6 }}>
 
-
-                {children}
+            {children}
 
             </Box>
         </Box>
