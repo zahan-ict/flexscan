@@ -11,11 +11,20 @@ import Templates from './components/pages/Templates';
 import Presets from './components/pages/Presets';
 import Users from './components/pages/Users';
 import Roles from './components/pages/Roles';
+import SignIn from './components/pages/SignIn';
 
 const App = () => {
-  
+
   return (
     <BrowserRouter>
+    
+      {/* <Routes>
+        <Route>
+          <Route path="/" element={<SignIn />} />
+        </Route>
+      </Routes> */}
+
+
       <Sidebar>
         <Routes>
           <Route path="/" element={<Dashboard />} />

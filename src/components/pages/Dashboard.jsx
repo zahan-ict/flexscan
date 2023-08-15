@@ -19,7 +19,7 @@ const Dashbord = () => {
            Dashboard
           </Typography>
         
-          <Typography variant="body2">
+          <div variant="body2">
 
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
@@ -64,7 +64,7 @@ const Dashbord = () => {
            
           </Container>
            
-          </Typography>
+          </div>
         </CardContent>
         
       </Card>
